@@ -11,4 +11,4 @@ Move to the appropriate directory: cd <YOUR_PROJECT_NAME>.
 
 Run `npm install` to setup in order to install dependencies.
 
-At this point you can run `npm run start` to see the example app at http://localhost:4001
+At this point you can run `npm run start`
