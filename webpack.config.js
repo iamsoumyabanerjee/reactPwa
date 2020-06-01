@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 4001
+    port: 5678
   },
   module: {
     rules: [{
@@ -34,14 +35,31 @@ module.exports = {
     }]
   },
   plugins: [
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ['dist']
+    }),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
+    /* 
+    * This is for GenerateSW 
+    */
     new WorkboxPlugin.GenerateSW({
-      // these options encourage the ServiceWorkers to get in there fast
-      // and not allow any straggling "old" SWs to hang around
+      swDest: 'sw.js',
       clientsClaim: true,
       skipWaiting: true,
-    }),
+      runtimeCaching: [{
+        urlPattern: new RegExp('https://jsonplaceholder.typicode.com/users'),
+        handler: 'StaleWhileRevalidate'
+      }]
+    })
+    /*
+    * This is for InjectManifest: WIP   
+    
+    new WorkboxPlugin.InjectManifest({
+      swSrc: path.resolve(__dirname, './src/service-worker.js'), // './src/service-worker.js',
+      swDest: './sw-dest.js'
+    })
+    */ 
   ] 
 }
