@@ -43,7 +43,7 @@ module.exports = {
     }),
     /* 
     * This is for GenerateSW 
-    */
+    *
     new WorkboxPlugin.GenerateSW({
       swDest: 'sw.js',
       clientsClaim: true,
@@ -53,13 +53,14 @@ module.exports = {
         handler: 'StaleWhileRevalidate'
       }]
     })
+    */
     /*
     * This is for InjectManifest: WIP   
-    
+    */
     new WorkboxPlugin.InjectManifest({
-      swSrc: path.resolve(__dirname, './src/service-worker.js'), // './src/service-worker.js',
-      swDest: './sw-dest.js'
+      swSrc: './src/sw.js', // './src/service-worker.js',
+      swDest: 'sw.js'
     })
-    */ 
+     
   ] 
 }
